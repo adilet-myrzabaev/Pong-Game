@@ -14,11 +14,11 @@ let Ball = {
         return {
             width: 18,
             height: 18,
-            x: (this.canvas.width / 2) - 9,
-            y: (this.canvas.height / 2) - 9,
+            x: (this.canvas.width / 2) ,
+            y: (this.canvas.height / 2),
             moveX: DIRECTION.IDLE,
             moveY: DIRECTION.IDLE,
-            speed: incrementedSpeed || 7
+            speed: incrementedSpeed || 4
         };
     }
 };
@@ -207,28 +207,72 @@ let Game = {
 
         this.context.fillStyle = '#ffffff';
 
-        this.context.fillRect(
-            this.player.x,
-            this.player.y,
-            this.player.width,
-            this.player.height
+        // ///////////////////Ракетка Игрока///////////////////////////////////////
+        this.context.beginPath();
+        this.context.moveTo(this.player.x + 10, this.player.y);
+        this.context.arcTo(
+            this.player.x + this.player.width, this.player.y,
+            this.player.x + this.player.width, this.player.y + 10,
+            10
         );
-
-        this.context.fillRect(
-            this.ai.x,
-            this.ai.y,
-            this.ai.width,
-            this.ai.height
+        this.context.arcTo(
+            this.player.x + this.player.width, this.player.y + this.player.height,
+            this.player.x + this.player.width - 10, this.player.y + this.player.height,
+            10
         );
+        this.context.arcTo(
+            this.player.x, this.player.y + this.player.height,
+            this.player.x, this.player.y + this.player.height - 10,
+            10
+        );
+        this.context.arcTo(
+            this.player.x, this.player.y,
+            this.player.x + 10, this.player.y,
+            10
+        );
+        this.context.closePath();
+        this.context.fill();
+        // //////////////////////////////Ракетка Робота/////////////////////////////////////////////////
 
+        this.context.beginPath();
+        this.context.moveTo(this.ai.x + 10, this.ai.y);
+        this.context.arcTo(
+            this.ai.x + this.ai.width, this.ai.y,
+            this.ai.x + this.ai.width, this.ai.y + 10,
+            10
+        );
+        this.context.arcTo(
+            this.ai.x + this.ai.width, this.ai.y + this.ai.height,
+            this.ai.x + this.ai.width - 10, this.ai.y + this.ai.height,
+            10
+        );
+        this.context.arcTo(
+            this.ai.x, this.ai.y + this.ai.height,
+            this.ai.x, this.ai.y + this.ai.height - 10,
+            10
+        );
+        this.context.arcTo(
+            this.ai.x, this.ai.y,
+            this.ai.x + 10, this.ai.y,
+            10
+        );
+        this.context.closePath();
+        this.context.fill();
 
+        //////////////////////////////////////////////////////////
+
+        // ///////////Ball////////////////////////////////////
         if (Pong._turnDelayIsOver.call(this)) {
-            this.context.fillRect(
-                this.ball.x,
-                this.ball.y,
-                this.ball.width,
-                this.ball.height
+            this.context.beginPath();
+            this.context.arc(
+                this.ball.x + this.ball.width / 2,
+                this.ball.y + this.ball.height / 2,
+                this.ball.width / 2,
+                0,
+                Math.PI * 2
             );
+            this.context.fill();
+            this.context.closePath();
         }
 
         this.context.beginPath();
@@ -290,7 +334,7 @@ let Game = {
             if (key.keyCode === 40 || key.keyCode === 83) Pong.player.move = DIRECTION.DOWN;
         });
 
-        document.addEventListener('keyup', function (key){ Pong.player.move = DIRECTION.IDLE});
+        document.addEventListener('keyup', function (){ Pong.player.move = DIRECTION.IDLE});
     },
 
     _resetTurn: function (victor, loser) {
