@@ -14,11 +14,11 @@ let Ball = {
         return {
             width: 18,
             height: 18,
-            x: (this.canvas.width / 2) ,
-            y: (this.canvas.height / 2),
+            x: (this.canvas.width / 2) - 9,
+            y: (this.canvas.height / 2) - 9,
             moveX: DIRECTION.IDLE,
             moveY: DIRECTION.IDLE,
-            speed: incrementedSpeed || 4
+            speed: incrementedSpeed || 7
         };
     }
 };
@@ -42,7 +42,7 @@ let Game = {
         this.canvas = document.querySelector('canvas');
         this.context = this.canvas.getContext('2d');
 
-        this.canvas.width = 1400;
+        this.canvas.width = 1600;
         this.canvas.height = 1000;
 
         this.canvas.style.width = (this.canvas.width / 2) + 'px';
